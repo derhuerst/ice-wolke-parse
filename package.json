@@ -1,0 +1,9 @@
+{
+	"name": "ice-wolke-parse",
+	"version": "1.0.0",
+	"description": "Gather insights from Inter City Express position data.",
+	"main": "index.js",
+	"author": "Jannis R <mail@jannisr.de>",
+	"contributors": ["Julius Tens <mail@juliuste.de>"],
+	"license": "ISC"
+}
