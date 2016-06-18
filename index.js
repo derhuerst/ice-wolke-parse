@@ -16,12 +16,15 @@ const center = require('./geographic-center')
 const splitIntoTrips = () => {
 	let trip = []
 	let last = 0
-	return through.obj(function (data, _, cb) {
-		if ((data.when - last) > 60 * 60 && trip.length > 0) { // gap of >= 1 hour
+	let line = NaN
+	return through.obj(function (d, _, cb) {
+		if (trip.length > 0 &&
+			((d.when - last) > 60 * 60 || d.line !== line)) {
 			this.push(trip)
 			trip = []
-		} else trip.push(data)
-		last = data.when
+			line = d.line
+		} else trip.push(d)
+		last = d.when
 		cb()
 	}, function (cb) {
 		this.push(trip)
@@ -37,7 +40,7 @@ const relative = () => map.obj((trip) => {
 	return trip.map((data) => Object.assign({}, data, {relative: data.when - start}))
 })
 
-const chunk = () => map.obj((trip) => {
+const timeslice = () => map.obj((trip) => {
 	const chunked = {}
 	for (let data of trip) {
 		chunked[Math.floor((data.relative + cfg.interval / 2) / cfg.interval)] = data
@@ -55,7 +58,7 @@ got.stream(cfg.wolke)
 .pipe(splitIntoTrips())
 .pipe(sort())
 .pipe(relative())
-.pipe(chunk())
+.pipe(timeslice())
 .pipe(sink({objectMode: true}))
 .on('data', (trips) => {
 
@@ -71,6 +74,12 @@ got.stream(cfg.wolke)
 
 	// Compute average positions by time
 	const centers = []
-	for (let i = 0; i < maxLength; i++) centers.push(center(trips.map((trip) => trip[i])))
+	for (let i = 0; i < maxLength; i++) {
+		const position = center(trips.map((trip) => trip[i]))
+		centers.push(Object.assign(position, {
+			line:     trips[0][0].line,
+			relative: i * cfg.interval
+		}))
+	}
 
 })
