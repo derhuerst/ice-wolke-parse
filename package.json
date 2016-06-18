@@ -14,7 +14,8 @@
 		"stream-filter": "^1",
 		"stream-sink": "^1.2",
 		"lodash.maxBy": "^4.4",
-		"lodash.mean": "^4.4"
+		"lodash.mean": "^4.4",
+		"lodash.groupBy": "^4.4"
 	},
 	"config": {
 		"interval": 10,
