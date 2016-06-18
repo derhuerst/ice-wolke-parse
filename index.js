@@ -4,6 +4,7 @@ const got = require('got')
 const ndjson = require('ndjson')
 const sink = require('stream-sink')
 const groupBy = require('lodash.groupBy')
+const fs = require('fs')
 
 const cfg = require('./package.json').config
 const _ = require('./helpers')
@@ -42,6 +43,8 @@ got.stream(cfg.wolke)
 		}
 
 	}
-	process.stdout.write(JSON.stringify(normalized))
+	fs.writeFile('planned.json', JSON.stringify(normalized), (err) => {
+		if (err) console.error(err)
+	})
 
 })
