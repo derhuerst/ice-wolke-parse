@@ -7,7 +7,9 @@ const ndjson = require('ndjson')
 const filter = require('stream-filter')
 const sink = require('stream-sink')
 const maxBy = require('lodash.maxBy')
+
 const cfg = require('./package.json').config
+const center = require('./geographic-center')
 
 
 
@@ -66,5 +68,9 @@ got.stream(cfg.wolke)
 		const last = trip[length - 1]
 		for (let i = length; i < maxLength; i++) trip[i] = last
 	}
+
+	// Compute average positions by time
+	const centers = []
+	for (let i = 0; i < maxLength; i++) centers.push(center(trips.map((trip) => trip[i])))
 
 })
