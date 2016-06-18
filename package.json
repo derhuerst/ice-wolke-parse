@@ -5,5 +5,15 @@
 	"main": "index.js",
 	"author": "Jannis R <mail@jannisr.de>",
 	"contributors": ["Julius Tens <mail@juliuste.de>"],
-	"license": "ISC"
+	"license": "ISC",
+	"dependencies": {
+		"though2": "^2.0.1",
+		"though2-map": "^2",
+		"got": "^6.3",
+		"ndjson": "^1.4.3",
+		"stream-filter": "^1"
+	},
+	"config": {
+		"wolke": "http://localhost:3001"
+	}
 }
