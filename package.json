@@ -11,9 +11,12 @@
 		"though2-map": "^2",
 		"got": "^6.3",
 		"ndjson": "^1.4.3",
-		"stream-filter": "^1"
+		"stream-filter": "^1",
+		"stream-sink": "^1.2",
+		"lodash.maxBy": "^4.4"
 	},
 	"config": {
+		"interval": 10,
 		"wolke": "http://localhost:3001"
 	}
 }
