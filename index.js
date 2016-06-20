@@ -8,7 +8,7 @@ const fs = require('fs')
 
 const cfg = require('./package.json').config
 const _ = require('./helpers')
-const center = require('./geographic-center')
+const center = require('geographic-center')
 
 
 
@@ -38,8 +38,9 @@ got.stream(cfg.wolke)
 		// Compute average positions by time
 		const centers = normalized[line] = []
 		for (let i = 0; i < maxLength; i++) {
-			const position = center(trips.map((trip) => trip[i]))
-			centers.push(Object.assign(position, {relative: i * cfg.interval}))
+
+			const position = center(trips.map((trip) => ({lat: trip[i].latitude, lon: trip[i].longitude}))
+			centers.push({latitude: position.lat, longitude: position.lon, relative: i * cfg.interval}))
 		}
 
 	}
